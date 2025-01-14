@@ -303,7 +303,8 @@ def download_scdb_files(current_year: int, save_path: str) -> Optional[int]:
         for i in range(current_year - 2023):
             year = current_year - i
             if download_scdb_file_helper(year, save_path, "by case"):
-                return year
+                final_year = year
+                break
             else:
                 continue
     except Exception as e:
@@ -313,11 +314,14 @@ def download_scdb_files(current_year: int, save_path: str) -> Optional[int]:
         for i in range(current_year - 2023):
             year = current_year - i
             if download_scdb_file_helper(year, save_path, "by justice"):
-                return year
+                final_year = year
+                break
             else:
                 continue
     except Exception as e:
         logging.exception(f"Unexpected error downloading the Scdb file by justice:", e)
+
+    return final_year
 
 def download_scdb_file_helper(year: int, save_path: str, organized_by: str) -> bool:
     """
@@ -488,7 +492,7 @@ class Case_builder:
                 votes_detail = {}
 
                 for index, row in filtered_df.iterrows():
-                    justice_name = self.convert_justices(justice_info_filepath, row['justice'])
+                    justice_name = self.convert_justices(self.justice_info_filepath, row['justice'])
                     votes[justice_name] = row['majority'] if row['majority'] else -1.0
                     votes_detail[justice_name] = row['vote'] if row['vote'] else -1.0
 
