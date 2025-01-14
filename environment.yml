@@ -1,0 +1,14 @@
+name: scEnv
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.11
+  - jupyter=1.0.0
+  - jupyter_client<7.0.0
+  - nb_conda=2.2.1
+  - beautifulsoup4=4.12.3
+  - pip
+  - pip:
+      - convokit
+      - selenium==4.27.1
