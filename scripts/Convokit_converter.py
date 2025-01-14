@@ -217,7 +217,7 @@ def make_corpus_conversations(year: int, corpus: Corpus) -> None:
                 utterances=utterances.split(','),  # Assuming utterances are comma-separated
                 meta=meta
             )
-            corpus.add_conversation(convo)
+            
             logging.info(f"Added Conversation ID: {conversation_id} for case {case_id}")
         except Exception as e:
             logging.exception(f"Error adding Conversation {conversation_id} to corpus: {e}")
@@ -270,5 +270,5 @@ def make_corpus_main(year: int, name_of_corpus: str) -> None:
     except Exception as e:
         logging.critical(f"Critical error in make_corpus_main execution: {e}")
 
-# if __name__=="__main__":
-#     make_corpus_main(2019, "new_corpus_2019")
+if __name__=="__main__":
+    make_corpus_main(2019, "new-2019")
