@@ -394,7 +394,7 @@ class Case_builder:
         Retrieve SCDB file paths for the latest updated year by calling the download function.
         Sets internal attributes for case-centered and justice-centered CSV file paths.
         """
-        latest_updated_year = download_scdb_files(self.current_year, 'dest.zip')
+        latest_updated_year = download_scdb_files(self.current_year, 'scdb_files.zip')
         self.scdb_file_by_case = f"./SCDB_{latest_updated_year}_01_caseCentered_Docket.csv"
         self.scdb_file_by_justice = f"./SCDB_{latest_updated_year}_01_justiceCentered_Docket.csv"
 
