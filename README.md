@@ -10,7 +10,7 @@ This repository requires [convokit](https://convokit.cornell.edu/documentation/i
 
 ```
 git clone git@github.com:jeeyonkang/Supreme-Court-Dataset-Extended.git
-cd cd Supreme-Court-Dataset-Extended
+cd Supreme-Court-Dataset-Extended
 conda env create -f environment.yml
 conda activate scEnv
 ```
