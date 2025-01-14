@@ -9,7 +9,7 @@ The code in this repository extends the [Convokit Supreme Court Oral Arguments d
 This repository requires [convokit](https://convokit.cornell.edu/documentation/install.html), [selenium](https://www.selenium.dev/), and [beautifulsoup4](https://beautiful-soup-4.readthedocs.io/en/latest/) packages.
 
 ```
-git clone git@github.com:jeeyonkang/Supreme-Court-Dataset-Extended.git
+git clone https://github.com/jeeyonkang/Supreme-Court-Dataset-Extended.git
 cd Supreme-Court-Dataset-Extended
 conda env create -f environment.yml
 conda activate scEnv
