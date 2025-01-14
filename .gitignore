@@ -172,3 +172,9 @@ cython_debug/
 
 #.DS_store file
 .DS_store
+
+#cache directory for scraping
+cache/
+
+#log directory for scraping
+logs/
