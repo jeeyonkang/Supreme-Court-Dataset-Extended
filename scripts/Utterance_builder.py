@@ -1,3 +1,8 @@
+"""
+The Utterance_builder class builds Utterance-level, as well as Speaker-level information, 
+for the year given in the Convo_builder object(which is a parameter for the class).
+"""
+
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By

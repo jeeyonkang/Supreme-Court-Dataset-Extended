@@ -1,3 +1,10 @@
+"""
+Downloads files from the Supreme Court Database. 
+Contains helper functions and the Case_builder class to build Case-level information for a given year, 
+based on the information from the Scdb files and the information scraped from Oyez.
+"""
+
+
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, WebDriverException, TimeoutException
 from selenium.webdriver.common.by import By
@@ -352,7 +359,9 @@ def download_scdb_file_helper(year: int, save_path: str, organized_by: str) -> b
         logging.info(f"Scdb file {organized_by} downloaded successfully, saved to {save_path}")
         return True
     except requests.exceptions.RequestException as e:
-        logging.exception("Request Error downloading the Scdb file %s: %s", organized_by, e)
+        logging.exception("Note: Request errors downloading Scdb files for recent years are normal.\
+            If file not found for recent years, we try again with an older year.\
+            Request Error downloading the Scdb file %s: %s", organized_by, e)
         return False
 
 class Case_builder:
