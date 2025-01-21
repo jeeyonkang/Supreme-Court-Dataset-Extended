@@ -2,13 +2,11 @@
 
 ### Contact
 
-Contact Jeeyon Kang (jk26@williams.edu) or Katie Keith (kak5@williams.edu) for questions or concerns. 
+Contact Jeeyon Kang (jk26@williams.edu) or Katie Keith (kak5@williams.edu) for questions or concerns.
 
 ### Convokit Supreme Court Oral Arguments dataset
 
 The code in this repository extends the [Convokit Supreme Court Oral Arguments dataset](https://convokit.cornell.edu/documentation/supreme.html), by scraping data from [Oyez](https://www.oyez.org/). We also supplement data with the [Supreme Court database](http://scdb.wustl.edu/) (SCDB).
-
-The original dataset only 
 
 ### Environment
 
@@ -23,24 +21,31 @@ conda activate scEnv
 
 ### Running the code
 
-To scrape a particular time period of Supreme Court oral arguments (from Oyez), run the following: 
+To scrape a particular time period of Supreme Court oral arguments (from Oyez), run the following:
 
 ```
 cd scripts
 python script.py --start_year {start year} --end_year {end year} --timeout {timeout}
 ```
 
-Optional arguments: 
+Optional arguments:
+
 - `--start_year` indicates the year for which to start building corpora(**inclusive**, defaults to 2019)
 - `--end_year` indicates the for which to end building corpora(**inclusive**, defaults to the year in which the code is being run)
 - `--timeout` indicates the timeout duration for selenium waits, in seconds (defaults to 10).
 
-For example, to scrape data from the full year of 2020 run the following: 
+For example, to scrape data from the full year of 2020 run the following:
 
 ```
 cd scripts
 python script.py --start_year 2020 --end_year 2020
 ```
+
+### Location of output
+
+The generated corpora are saved in `~/.convokit/saved-corpora`.
+Upon running the script, the `output` directory is created within the `script` directory. Within each `year` directory, there is case-level, conversation-level, utterance-level, and speaker-level meta data in `.jsonl` and `.csv` format(This is not the corpus).
+**_For case-level meta data, look at the `case-info.jsonl` or `case-info.csv` files for each year within this `output` directory._**
 
 ### Notes on the data
 
@@ -68,7 +73,7 @@ The following are changes to the information of certain fields, compared to the 
 
 - `adv-side-inferred`: This field is set to `False` for all cases in the current version of the script, due to the lack of information on how sides are inferred. Convokit documentation mentions that documentation on the heuristics is forthcoming.
 
-- `votes-side`: If the win-side of a case is 2.0, we assume the vote was equally divided and we cannot infer which side the justice voted for. We provide -1.0 in this case.
+- `votes-side`: Per the convokit documentation, this dictionary denotes whether each justice voted for the petitioning party. This is derived from the `win_side` and `votes_detail` information. If the `win_side` of a case is 2.0(according to the [Scdb documentation](http://scdb.wustl.edu/documentation.php?var=partyWinning), this means that a justice's "favorable disposition for petitioning party (is) unclear"), we assume the vote was equally divided and we cannot infer which side the justice voted for. We provide -1.0 in this case.
 
 - Though they are in the `sample.jsonl` file provided in the "Case information" section of the Convokit documentation, the `"is_eq_divided"` and `"known_respondent_adv"` fields are no longer provided in this script. This is per the most recent Convokit documentation.
 
@@ -81,7 +86,6 @@ The following are changes to the information of certain fields, compared to the 
 
 - `role`: Per the most recent documentation of Convokit, the 'role' of the speaker is no longer provided.
 
-
 ### Testing
 
 The following tests were performed in `testing/compare.ipynb` to ensure the integrity of the corpus
@@ -92,7 +96,7 @@ The following tests were performed in `testing/compare.ipynb` to ensure the inte
 
 ### Additional notes
 
-- `justice_info.csv` contains information about each justice's full name, their corresponding Oyez id(see Convokit documentation), and [scdb justice id](http://scdb.wustl.edu/documentation.php?var=justice#norms). When new justices are appointed to the Supreme Court, the file has to be updated with the new justice's information. The filepath to this file can be edited in the script.py file.
+- `justice_info.csv` contains information about each justice's full name, their corresponding Oyez id(see Convokit documentation), and [scdb justice id](http://scdb.wustl.edu/documentation.php?var=justice#norms). **_This file has been manually created by searching information on Wikipedia. When new justices are appointed to the Supreme Court, the file has to be updated with the new justice's information._** The filepath to this file can be edited in the script.py file.
 
 - As mentioned above, information on Oyez, including conversation ids, is constantly updated. To obtain accurate information, we recommend re-running the script every few months or years so that the most recent updates to Oyez are reflected in the data.
 
