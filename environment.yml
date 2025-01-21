@@ -10,5 +10,5 @@ dependencies:
   - beautifulsoup4=4.12.3
   - pip
   - pip:
-      - convokit
+      - convokit==3.0.2
       - selenium==4.27.1
