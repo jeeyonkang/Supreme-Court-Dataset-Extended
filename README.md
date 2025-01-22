@@ -88,6 +88,8 @@ The following are changes to the information of certain fields, compared to the 
 
 ### Testing
 
+The script `testing/usable_with_convokit.ipynb` shows that our scripts, once downloaded, successfully create data (locally) that can be integrated with convokit.
+
 The following tests were performed in `testing/compare.ipynb` to ensure the integrity of the corpus
 
 - We compared our scraped 2019 corpus (as extracted by the script in this repository) and the pre-existing 2019 corpus from the Convokit dataset.
