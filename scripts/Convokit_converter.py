@@ -1,3 +1,8 @@
+"""
+Converts the output(currently in jsonl format) to txt format,
+then builds a corpus in the convokit format.
+"""
+
 from tqdm import tqdm
 from convokit import Corpus, Speaker, Utterance, Conversation
 

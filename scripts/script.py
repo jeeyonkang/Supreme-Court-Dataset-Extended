@@ -1,3 +1,8 @@
+"""
+Main script to run. Builds case-level, conversation-level, utterance-level, speaker-level information.
+Then converts info into a convokit corpus and saves in "~/.convokit/saved-corpora".
+"""
+
 from Case_builder import case_builder_main
 from Convo_builder import convo_builder_main
 from Utterance_builder import utterance_builder_main
@@ -43,6 +48,7 @@ def main() -> None:
     invoking the case_builder_main, convo_builder_main, utterance_builder_main, and
     make_corpus_main functions sequentially to build and save the corpus data.
     """
+    print("Script running. This process usually takes a few minutes. Look in logs/script_log.log for errors and warnings.")
     parser = argparse.ArgumentParser(description="Build and save Convokit corpora for Supreme Court cases.")
     parser.add_argument(
         "--start_year",

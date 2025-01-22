@@ -1,3 +1,8 @@
+"""
+The Convo_builder class builds Conversation-level information, 
+for the year given in the Case_builder object(which is a parameter for the class).
+"""
+
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 
