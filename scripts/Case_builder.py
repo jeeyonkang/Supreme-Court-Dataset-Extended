@@ -799,6 +799,3 @@ def case_builder_main(year: int, justice_info_filepath: str, timeout: int):
             
     except Exception as e:
         logging.critical(f"Critical error in main execution: {e}")
-
-if __name__=="__main__":
-    case_builder_main(2019, './justice_info.csv', 2)
