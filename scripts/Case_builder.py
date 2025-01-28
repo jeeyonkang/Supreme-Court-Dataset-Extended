@@ -251,7 +251,7 @@ def convert_name(name: str) -> str:
         logging.exception(f"Error converting name '{name}': {e}")
         return ""
 
-def get_advocate_side(role: str, petitioner: str, respondent: str) -> str:
+def get_advocate_side(case: Case, role: str, petitioner: str, respondent: str) -> str:
     """
     Determine the side of the advocate based on the provided role. Returns '0' for respondent,
     '1' for petitioner, '2' for amicus curiae or U.S., and '3' for unknown.
@@ -265,7 +265,11 @@ def get_advocate_side(role: str, petitioner: str, respondent: str) -> str:
     - str: A single-digit string indicating the advocate side.
     """
     try:
-        if 'respondent' in role.lower() or respondent.lower() in role.lower() \
+        if f'respondent in {case.id}' in role.lower():
+            return '0'
+        elif f'petitioner in {case.id}' in role.lower():
+            return '1'
+        elif 'respondent' in role.lower() or respondent.lower() in role.lower() \
            or 'appellee' in role.lower() or 'defendant' in role.lower():
             return '0'
         elif 'petitioner' in role.lower() or petitioner.lower() in role.lower() \
