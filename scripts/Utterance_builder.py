@@ -381,9 +381,9 @@ class Utterance_builder:
             start_time = sentence.get('start-time')
             stop_time = sentence.get('stop-time')
             if start_time:
-                start_times.append(start_time)
+                start_times.append(float(start_time))
             if stop_time:
-                stop_times.append(stop_time)
+                stop_times.append(float(stop_time))
 
         return text.strip(), start_times, stop_times
 
