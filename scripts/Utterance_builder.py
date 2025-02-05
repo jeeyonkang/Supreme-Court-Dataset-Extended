@@ -225,9 +225,10 @@ class Utterance_builder:
 
         previous_id = ''
         for utterance_no, u in enumerate(utterances, start=1):
-            convo = self.process_utterance(u, case, convo, section_no, utterance_no, previous_id)
+            prev_id = self.process_utterance(u, case, convo, section_no, utterance_no, previous_id)
+            previous_id = prev_id
 
-    def process_utterance(self, u: BeautifulSoup, case: Case, convo: Conversation, section_no: int, utterance_no: int, previous_id: str) -> Conversation:
+    def process_utterance(self, u: BeautifulSoup, case: Case, convo: Conversation, section_no: int, utterance_no: int, previous_id: str) -> str:
         """
         Processes a single utterance element to create and store an Utterance object.
 
@@ -240,7 +241,7 @@ class Utterance_builder:
         - previous_id (str): The ID of the previous utterance for reply tracking.
 
         Returns:
-        - Conversation: The updated Conversation object with the convo.utterances attribute updated.
+        - utter.id (str): The id of this utterance(used as the previous_id of the next utterance).
         """
         try:
             utter = Utterance()
@@ -259,7 +260,8 @@ class Utterance_builder:
 
             # Assign side based on speaker type
             if utter.speaker_type == 'A':
-                utter.side = self.get_advocate_side(speaker_name, case)
+                speaker_id = speaker_obj.id
+                utter.side = self.get_advocate_side(speaker_id, case)
             else:
                 utter.side = ''
 
@@ -279,9 +281,7 @@ class Utterance_builder:
             self.all_utterances.append(utter)
             logging.debug(f"Added Utterance ID: {utter.id} for case {case.id}, convo {convo.id}")
 
-            # Update previous_id for the next utterance
-            previous_id = utter.id
-            return convo
+            return utter.id
         except Exception as e:
             logging.exception(f"Error processing utterance in section {section_no} for case {case.id}, convo {convo.id}: {e}")
             return convo
@@ -338,18 +338,17 @@ class Utterance_builder:
             return Speaker(id="", name=speaker_name, type="")
 
         try:
+            id_ = convert_name(speaker_name)
             # If the speaker is in the justice_info.csv, they are a justice
             if speaker_name in df['justice_first_name_first'].values:
                 speaker_type = "J"
                 id_ = df.loc[df['justice_first_name_first'] == speaker_name, 'justice_id'].values[0]
             # If the speaker is in the case's advocate list, they are an advocate
-            elif speaker_name in case.advocates:
+            elif id_ in case.advocates:
                 speaker_type = "A"
-                id_ = convert_name(speaker_name)
             # Otherwise, the speaker's type is unknown
             else:
                 speaker_type = "U"
-                id_ = convert_name(speaker_name)
                 logging.warning(f"No speaker type found for speaker '{speaker_name}' in case {case.id}")
 
             speaker_object = Speaker(id=id_, name=speaker_name, type=speaker_type)
@@ -411,7 +410,7 @@ class Utterance_builder:
         """
         return convo.id
 
-    def get_advocate_side(self, speaker_name: str, case: Case) -> str:
+    def get_advocate_side(self, speaker_id: str, case: Case) -> str:
         """
         Retrieves the side associated with an advocate.
 
@@ -423,9 +422,9 @@ class Utterance_builder:
         - str: The side of the advocate.
         """
         try:
-            return case.advocates[speaker_name]['side']
+            return case.advocates[speaker_id]['side']
         except KeyError:
-            logging.warning(f"Speaker '{speaker_name}' not found in case advocates for case {case.id}")
+            logging.warning(f"Speaker '{speaker_id}' not found in case advocates for case {case.id}")
             return ''
 
     def make_utterances_to_dicts(self) -> list:
