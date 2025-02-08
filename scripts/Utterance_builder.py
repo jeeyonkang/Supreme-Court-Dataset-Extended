@@ -415,7 +415,7 @@ class Utterance_builder:
         Retrieves the side associated with an advocate.
 
         Args:
-        - speaker_name (str): The name of the advocate.
+        - speaker_id (str): The id of the advocate.
         - case (Case): An instance of the Case class. Assumes the speaker is in case.advocates.
 
         Returns:
