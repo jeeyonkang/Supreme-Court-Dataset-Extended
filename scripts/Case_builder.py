@@ -257,6 +257,7 @@ def get_advocate_side(case: Case, role: str, petitioner: str, respondent: str) -
     '1' for petitioner, '2' for amicus curiae or U.S., and '3' for unknown.
 
     Args:
+    - case (Case): Needed to check the id of the case which the advocate is arguing in.
     - role (str): The role of the advocate (respondent, petitioner, amicus, etc.).
     - petitioner (str): The name of the petitioner.
     - respondent (str): The name of the respondent.
