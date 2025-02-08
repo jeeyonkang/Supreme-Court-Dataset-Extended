@@ -157,17 +157,13 @@ def make_corpus_utterances(year: int) -> dict:
             continue
         
         meta = {
-            'id': id,
-            'text': text,
             'speaker': speaker_name,
-            'convo_id': conversation_id, 
             'case_id': case_id,
             'speaker_type': speaker_type,
             'side': side,
             'start_times': start_times, 
             'stop_times': stop_times,
             'timestamp':  timestamp,
-            'reply_to': reply_to
         }
 
         matching_ids = df_speakers[df_speakers['name'] == speaker_name]['speaker_id'].tolist()
@@ -209,7 +205,6 @@ def make_corpus_conversations(year: int, corpus: Corpus) -> None:
             continue
         conversation_id, case_id, advocates, votes_side, win_side, utterances = parts
         meta = {
-            'id': conversation_id,
             'case_id': case_id,
             'advocates': advocates,
             'votes_side': votes_side,

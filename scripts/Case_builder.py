@@ -220,8 +220,8 @@ def build_advocates(case: Case, driver, petitioner: str, respondent: str, droppe
 
                 speaker_id = convert_name(name) # The advocate's Oyez id
                 # side: '0' for respondent, '1' for petitioner, '2' for amicus curiae or U.S., and '3' for unknown.
-                side = get_advocate_side(role, petitioner=petitioner, respondent=respondent)
-                advocate_dict[name] = {"id": speaker_id, "name": name, "role": role, "side": side}
+                side = get_advocate_side(case, role, petitioner=petitioner, respondent=respondent)
+                advocate_dict[speaker_id] = {"side": side, "role": role}
                 logging.debug(f"Added advocate: {name}")
             except Exception as e:
                 logging.exception(f"Error processing advocate in case {case.id}: {e}")
@@ -251,12 +251,13 @@ def convert_name(name: str) -> str:
         logging.exception(f"Error converting name '{name}': {e}")
         return ""
 
-def get_advocate_side(role: str, petitioner: str, respondent: str) -> str:
+def get_advocate_side(case: Case, role: str, petitioner: str, respondent: str) -> str:
     """
     Determine the side of the advocate based on the provided role. Returns '0' for respondent,
     '1' for petitioner, '2' for amicus curiae or U.S., and '3' for unknown.
 
     Args:
+    - case (Case): Needed to check the id of the case which the advocate is arguing in.
     - role (str): The role of the advocate (respondent, petitioner, amicus, etc.).
     - petitioner (str): The name of the petitioner.
     - respondent (str): The name of the respondent.
@@ -265,7 +266,12 @@ def get_advocate_side(role: str, petitioner: str, respondent: str) -> str:
     - str: A single-digit string indicating the advocate side.
     """
     try:
-        if 'respondent' in role.lower() or respondent.lower() in role.lower() \
+        case_id_latter = case.id.split("_")[1]
+        if (f'respondent in {case_id_latter}') in role.lower():
+            return '0'
+        elif (f'petitioner in {case_id_latter}') in role.lower():
+            return '1'
+        elif 'respondent' in role.lower() or respondent.lower() in role.lower() \
            or 'appellee' in role.lower() or 'defendant' in role.lower():
             return '0'
         elif 'petitioner' in role.lower() or petitioner.lower() in role.lower() \
